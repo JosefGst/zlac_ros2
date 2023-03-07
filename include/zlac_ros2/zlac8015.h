@@ -30,13 +30,15 @@ protected:
     uint8_t DISABLE[2] = {0x00, 0X07};
     uint8_t OPERATING_MODE[2] = {0X20, 0X32};
     uint8_t VEL_MODE[2] = {0x00, 0X03};
-    uint8_t RPM_CMD[2] = {0x20, 0X3A};
+    uint8_t SET_RPM[2] = {0x20, 0X3A};
+    uint8_t GET_RPM[2] = {0x20, 0X2C};
     uint8_t SET_ACC_TIME[2] = {0x20, 0X37};
     uint8_t SET_DECC_TIME[2] = {0x20, 0X38};
 
     void calculate_crc();
-    uint8_t read_hex();
+    uint8_t read_hex(uint8_t num_bytes);
     void print_hex_cmd();
+    void print_rec_hex();
 
 public:
     serial::Serial _serial;
@@ -47,6 +49,7 @@ public:
     uint8_t enable();
     uint8_t disable();
     uint8_t set_rpm(int16_t rpm);
+    int16_t get_rpm(int16_t rpm);
 
     void sleep(unsigned long milliseconds);
 };

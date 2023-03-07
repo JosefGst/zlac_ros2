@@ -27,12 +27,12 @@ endif()
 include_directories(include)
 
 # define the binary to be built and identify the source files with with which to build it
-add_executable(zlac8015 src/zlac8015.cpp)
+add_executable(zlac8015_example src/zlac8015_example.cpp src/zlac8015.cpp)
 # tell CMake that the executable "main" depends on the library "my_value_converter_library"
-ament_target_dependencies(zlac8015 serial rclcpp)
+ament_target_dependencies(zlac8015_example serial rclcpp)
 # install the executable in the lib folder to make it detectable through setup.bash
 install(TARGETS 
-  zlac8015
+  zlac8015_example
   DESTINATION lib/${PROJECT_NAME}/
 )
 

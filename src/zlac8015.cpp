@@ -18,16 +18,36 @@ uint8_t ZLAC::set_rpm(int16_t rpm)
     // memset(hex_cmd, 0, sizeof(hex_cmd));
     hex_cmd[0] = ID;
     hex_cmd[1] = WRITE;
-    hex_cmd[2] = RPM_CMD[0];
-    hex_cmd[3] = RPM_CMD[1];
+    hex_cmd[2] = SET_RPM[0];
+    hex_cmd[3] = SET_RPM[1];
 
     hex_cmd[4] = (rpm >> 8) & 0xFF;
     hex_cmd[5] = rpm & 0xFF;
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex();
+    read_hex(8);
     return 0;
+}
+
+int16_t ZLAC::get_rpm(int16_t rpm)
+{
+    // memset(hex_cmd, 0, sizeof(hex_cmd));
+    hex_cmd[0] = ID;
+    hex_cmd[1] = READ;
+    hex_cmd[2] = GET_RPM[0];
+    hex_cmd[3] = GET_RPM[1];
+
+    hex_cmd[4] = (rpm >> 8) & 0xFF;
+    hex_cmd[5] = rpm & 0xFF;
+
+    calculate_crc();
+    // print_hex_cmd();
+    _serial.write(hex_cmd, 8);
+    // print_rec_hex();
+    read_hex(7);
+    int16_t rpm_thenth = receive_hex[4] + (receive_hex[3] << 8);
+    return rpm_thenth / 10;
 }
 
 uint8_t ZLAC::enable()
@@ -43,7 +63,7 @@ uint8_t ZLAC::enable()
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex();
+    read_hex(8);
     return 0;
 }
 
@@ -60,7 +80,7 @@ uint8_t ZLAC::disable()
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex();
+    read_hex(8);
     return 0;
 }
 
@@ -77,7 +97,7 @@ uint8_t ZLAC::set_vel_mode()
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex();
+    read_hex(8);
     return 0;
 }
 
@@ -94,7 +114,7 @@ uint8_t ZLAC::set_acc_time(uint16_t acc_time)
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex();
+    read_hex(8);
     return 0;
 }
 
@@ -111,7 +131,7 @@ uint8_t ZLAC::set_decc_time(uint16_t decc_time)
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex();
+    read_hex(8);
     return 0;
 }
 
@@ -134,9 +154,9 @@ void ZLAC::calculate_crc()
     hex_cmd[7] = (result >> 8) & 0xFF;
 }
 
-uint8_t ZLAC::read_hex()
+uint8_t ZLAC::read_hex(uint8_t num_bytes)
 {
-    std::string line = _serial.read(8);
+    std::string line = _serial.read(num_bytes);
 
     // convert string to hex
     for (uint8_t i = 0; i < uint8_t(line.size()); i++)
@@ -146,7 +166,7 @@ uint8_t ZLAC::read_hex()
     }
 
     // crc check of received data
-    if (crc16(receive_hex, sizeof(receive_hex)) != 0)
+    if (crc16(receive_hex, num_bytes) != 0)
     {
         printf("crc checking error\n");
         return 1;
@@ -163,17 +183,11 @@ void ZLAC::print_hex_cmd()
     }
 }
 
-int main()
+void ZLAC::print_rec_hex()
 {
-    ZLAC motor;
-    motor.beginn("/dev/zlac", 115200, 0x01);
-    motor.set_vel_mode();
-    motor.enable();
-    motor.set_acc_time(500);
-    motor.set_decc_time(500);
-    for (int i = 0; i < 100; i++)
+    // print
+    for (int i = 0; i < 8; i++)
     {
-        motor.set_rpm(100);
+        printf("rec: %d, %02x\n", i, receive_hex[i]);
     }
-    motor.disable();
 }
