@@ -4,6 +4,7 @@
     vcs import .. < my.repos
 
 ## Wiring
+terminal resistor switch is **on** for "right motor"
 ![wiring diagram](https://github.com/JosefGst/zlac_ros2/blob/master/assets/zlac%20wiring.png)
 
 ## Run example
