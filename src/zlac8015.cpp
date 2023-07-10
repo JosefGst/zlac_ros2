@@ -30,7 +30,7 @@ uint8_t ZLAC::set_rpm(int16_t rpm)
     return 0;
 }
 
-int16_t ZLAC::get_rpm(int16_t rpm)
+int16_t ZLAC::get_rpm()
 {
     // memset(hex_cmd, 0, sizeof(hex_cmd));
     hex_cmd[0] = ID;
@@ -38,8 +38,8 @@ int16_t ZLAC::get_rpm(int16_t rpm)
     hex_cmd[2] = GET_RPM[0];
     hex_cmd[3] = GET_RPM[1];
 
-    hex_cmd[4] = (rpm >> 8) & 0xFF;
-    hex_cmd[5] = rpm & 0xFF;
+    hex_cmd[4] = 0x00;
+    hex_cmd[5] = 0x01;
 
     calculate_crc();
     // print_hex_cmd();

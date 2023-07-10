@@ -49,7 +49,7 @@ public:
     uint8_t enable();
     uint8_t disable();
     uint8_t set_rpm(int16_t rpm);
-    int16_t get_rpm(int16_t rpm);
+    int16_t get_rpm();
 
     void sleep(unsigned long milliseconds);
 };
