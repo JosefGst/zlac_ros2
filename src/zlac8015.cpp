@@ -191,3 +191,8 @@ void ZLAC::print_rec_hex()
         printf("rec: %d, %02x\n", i, receive_hex[i]);
     }
 }
+
+void ZLAC::say_hello()
+{
+    printf("Hello World");
+}

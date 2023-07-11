@@ -26,15 +26,33 @@ endif()
 
 include_directories(include)
 
-# define the binary to be built and identify the source files with with which to build it
+
 add_executable(zlac8015_example src/zlac8015_example.cpp src/zlac8015.cpp)
-# tell CMake that the executable "main" depends on the library "my_value_converter_library"
 ament_target_dependencies(zlac8015_example serial rclcpp)
+
+
+add_library(zlac8015 src/zlac8015.cpp) 
+ament_export_targets(zlac8015 HAS_LIBRARY_TARGET)
+ament_target_dependencies(zlac8015 serial rclcpp)
+
+install(
+  DIRECTORY include/zlac_ros2
+  DESTINATION include
+)
+
 # install the executable in the lib folder to make it detectable through setup.bash
 install(TARGETS 
   zlac8015_example
   DESTINATION lib/${PROJECT_NAME}/
 )
 
+install(
+  TARGETS zlac8015
+  EXPORT zlac8015
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
+)
 
 ament_package()

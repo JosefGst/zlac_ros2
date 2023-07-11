@@ -52,6 +52,7 @@ public:
     int16_t get_rpm();
 
     void sleep(unsigned long milliseconds);
+    void say_hello();
 };
 
 #endif
