@@ -10,7 +10,7 @@ void ZLAC::beginn(std::string port, int baudrate, uint8_t _ID)
 
     _serial.open();
     _serial.flushInput();
-    std::cout << "SERIAL OK!" << std::endl;
+    // std::cout << "SERIAL OK!" << std::endl;
 }
 
 uint8_t ZLAC::set_rpm(int16_t rpm)
@@ -30,7 +30,7 @@ uint8_t ZLAC::set_rpm(int16_t rpm)
     return 0;
 }
 
-int16_t ZLAC::get_rpm()
+float ZLAC::get_rpm()
 {
     // memset(hex_cmd, 0, sizeof(hex_cmd));
     hex_cmd[0] = ID;
@@ -43,11 +43,16 @@ int16_t ZLAC::get_rpm()
 
     calculate_crc();
     // print_hex_cmd();
-    _serial.write(hex_cmd, 8);
-    // print_rec_hex();
-    read_hex(7);
+
+    // TODO isn't save to coninue reading infinite in case of error
+    do // repeat sending and read command as long as it has crc error
+    {
+        _serial.write(hex_cmd, 8);
+        // print_rec_hex();
+    } while (read_hex(7));
+
     int16_t rpm_thenth = receive_hex[4] + (receive_hex[3] << 8);
-    return rpm_thenth / 10;
+    return (float)rpm_thenth / 10.0f;
 }
 
 uint8_t ZLAC::enable()

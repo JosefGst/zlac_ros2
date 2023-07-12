@@ -24,14 +24,25 @@ int main()
     motorR.set_rpm(100 * FLIP);
     for (int i = 0; i < 100; i++)
     {
-        printf("i: %d read rpm R: %d \n", i, motorR.get_rpm() * FLIP);
-        printf("i: %d read rpm L: %d \n", i, motorL.get_rpm());
+        printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
+        printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
     }
     motorR.disable();
     motorL.disable();
     for (int i = 0; i < 100; i++)
     {
-        printf("i: %d read rpm R: %d \n", i, motorR.get_rpm() * FLIP);
-        printf("i: %d read rpm L: %d \n", i, motorL.get_rpm());
+        printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
+        printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
     }
+    motorR.enable();
+    motorL.enable();
+    motorL.set_rpm(-100);
+    motorR.set_rpm(-100 * FLIP);
+    for (int i = 0; i < 100; i++)
+    {
+        printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
+        printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
+    }
+    motorR.disable();
+    motorL.disable();
 }
