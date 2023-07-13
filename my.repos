@@ -1,0 +1,5 @@
+repositories:
+  urdf_launch:
+    type: git
+    url: git@github.com:joshnewans/serial.git
+    version: newans_ros2
