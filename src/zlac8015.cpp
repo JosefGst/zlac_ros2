@@ -181,7 +181,7 @@ uint8_t ZLAC::read_hex(uint8_t num_bytes)
     // crc check of received data
     if (crc16(receive_hex, num_bytes) != 0)
     {
-        printf("crc checking error\n");
+        // printf("crc checking error\n");
         return 1;
     }
     return 0;
