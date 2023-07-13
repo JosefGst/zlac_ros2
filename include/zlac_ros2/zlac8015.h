@@ -41,6 +41,7 @@ protected:
     void calculate_crc();
 
     /**
+     * @brief reads from the serial port and saves the string into the receive_hex array
      * @param num_bytes how many bytes to read from the buffer
      * @return return 0 when OK, 1 if crc error
      */
