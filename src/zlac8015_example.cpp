@@ -5,10 +5,10 @@
 int main()
 {
     ZLAC motorL;
-    motorL.beginn("/dev/zlac", 115200, 0x01);
+    motorL.begin("/dev/zlac", 115200, 0x01);
 
     ZLAC motorR;
-    motorR.beginn("/dev/zlac", 115200, 0x02);
+    motorR.begin("/dev/zlac", 115200, 0x02);
 
     motorR.set_vel_mode();
     motorR.enable();

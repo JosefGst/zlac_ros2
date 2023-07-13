@@ -1,8 +1,8 @@
 #include "zlac_ros2/zlac8015.h"
 
-void ZLAC::beginn(std::string port, int baudrate, uint8_t _ID)
+void ZLAC::begin(std::string port, int baudrate, uint8_t ID)
 {
-    ID = _ID;
+    this->ID = ID;
     _serial.setPort(port);
     _serial.setBaudrate(baudrate);
     serial::Timeout timeout = serial::Timeout::simpleTimeout(200);
@@ -25,8 +25,14 @@ uint8_t ZLAC::set_rpm(int16_t rpm)
     hex_cmd[5] = rpm & 0xFF;
 
     calculate_crc();
-    _serial.write(hex_cmd, 8);
-    read_hex(8);
+
+    // TODO isn't save, to coninue reading infinite in case of error
+    do // repeat sending and read command as long as it has crc error
+    {
+        _serial.write(hex_cmd, 8);
+        // print_rec_hex();
+    } while (read_hex(8));
+
     return 0;
 }
 
@@ -44,7 +50,7 @@ float ZLAC::get_rpm()
     calculate_crc();
     // print_hex_cmd();
 
-    // TODO isn't save to coninue reading infinite in case of error
+    // TODO isn't save, to coninue reading infinite in case of error
     do // repeat sending and read command as long as it has crc error
     {
         _serial.write(hex_cmd, 8);
@@ -68,7 +74,8 @@ uint8_t ZLAC::enable()
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex(8);
+    if (read_hex(8))
+        return 1;
     return 0;
 }
 
@@ -85,7 +92,8 @@ uint8_t ZLAC::disable()
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex(8);
+    if (read_hex(8))
+        return 1;
     return 0;
 }
 
@@ -106,7 +114,7 @@ uint8_t ZLAC::set_vel_mode()
     return 0;
 }
 
-uint8_t ZLAC::set_acc_time(uint16_t acc_time)
+uint8_t ZLAC::set_acc_time(uint16_t acc_time_ms)
 {
     // memset(hex_cmd, 0, sizeof(hex_cmd));
     hex_cmd[0] = ID;
@@ -114,8 +122,8 @@ uint8_t ZLAC::set_acc_time(uint16_t acc_time)
     hex_cmd[2] = SET_ACC_TIME[0];
     hex_cmd[3] = SET_ACC_TIME[1];
 
-    hex_cmd[4] = (acc_time >> 8) & 0xFF;
-    hex_cmd[5] = acc_time & 0xFF;
+    hex_cmd[4] = (acc_time_ms >> 8) & 0xFF;
+    hex_cmd[5] = acc_time_ms & 0xFF;
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
@@ -123,7 +131,7 @@ uint8_t ZLAC::set_acc_time(uint16_t acc_time)
     return 0;
 }
 
-uint8_t ZLAC::set_decc_time(uint16_t decc_time)
+uint8_t ZLAC::set_decc_time(uint16_t decc_time_ms)
 {
     // memset(hex_cmd, 0, sizeof(hex_cmd));
     hex_cmd[0] = ID;
@@ -131,8 +139,8 @@ uint8_t ZLAC::set_decc_time(uint16_t decc_time)
     hex_cmd[2] = SET_ACC_TIME[0];
     hex_cmd[3] = SET_ACC_TIME[1];
 
-    hex_cmd[4] = (decc_time >> 8) & 0xFF;
-    hex_cmd[5] = decc_time & 0xFF;
+    hex_cmd[4] = (decc_time_ms >> 8) & 0xFF;
+    hex_cmd[5] = decc_time_ms & 0xFF;
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
