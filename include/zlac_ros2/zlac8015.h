@@ -23,17 +23,17 @@ protected:
     uint8_t hex_cmd[8] = {0};
     uint8_t receive_hex[8] = {0};
     uint8_t ID = 0x00;
-    uint8_t READ = 0x03;
-    uint8_t WRITE = 0x06;
-    uint8_t CONTROL_REG[2] = {0X20, 0X31};
-    uint8_t ENABLE[2] = {0x00, 0X08};
-    uint8_t DISABLE[2] = {0x00, 0X07};
-    uint8_t OPERATING_MODE[2] = {0X20, 0X32};
-    uint8_t VEL_MODE[2] = {0x00, 0X03};
-    uint8_t SET_RPM[2] = {0x20, 0X3A};
-    uint8_t GET_RPM[2] = {0x20, 0X2C};
-    uint8_t SET_ACC_TIME[2] = {0x20, 0X37};
-    uint8_t SET_DECC_TIME[2] = {0x20, 0X38};
+    const uint8_t READ = 0x03;
+    const uint8_t WRITE = 0x06;
+    const uint8_t CONTROL_REG[2] = {0X20, 0X31};
+    const uint8_t ENABLE[2] = {0x00, 0X08};
+    const uint8_t DISABLE[2] = {0x00, 0X07};
+    const uint8_t OPERATING_MODE[2] = {0X20, 0X32};
+    const uint8_t VEL_MODE[2] = {0x00, 0X03};
+    const uint8_t SET_RPM[2] = {0x20, 0X3A};
+    const uint8_t GET_RPM[2] = {0x20, 0X2C};
+    const uint8_t SET_ACC_TIME[2] = {0x20, 0X37};
+    const uint8_t SET_DECC_TIME[2] = {0x20, 0X38};
 
     /**
      * @brief calculates the crc and stores it in the hex_cmd array, so there is no return value
@@ -50,12 +50,12 @@ protected:
     /**
      * @brief print the hex command for debugging
      */
-    void print_hex_cmd();
+    void print_hex_cmd() const;
 
     /**
      * @brief print received hex for debugging
      */
-    void print_rec_hex();
+    void print_rec_hex() const;
 
 public:
     serial::Serial _serial;

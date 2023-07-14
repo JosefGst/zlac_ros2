@@ -187,7 +187,7 @@ uint8_t ZLAC::read_hex(uint8_t num_bytes)
     return 0;
 }
 
-void ZLAC::print_hex_cmd()
+void ZLAC::print_hex_cmd() const
 {
     // print
     for (int i = 0; i < 8; i++)
@@ -196,7 +196,7 @@ void ZLAC::print_hex_cmd()
     }
 }
 
-void ZLAC::print_rec_hex()
+void ZLAC::print_rec_hex() const
 {
     // print
     for (int i = 0; i < 8; i++)
