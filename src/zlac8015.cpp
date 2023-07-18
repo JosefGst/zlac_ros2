@@ -5,7 +5,7 @@ void ZLAC::begin(std::string port, int baudrate, uint8_t ID)
     this->ID = ID;
     _serial.setPort(port);
     _serial.setBaudrate(baudrate);
-    serial::Timeout timeout = serial::Timeout::simpleTimeout(200);
+    serial::Timeout timeout = serial::Timeout::simpleTimeout(100);
     _serial.setTimeout(timeout);
 
     _serial.open();
@@ -127,7 +127,8 @@ uint8_t ZLAC::set_acc_time(uint16_t acc_time_ms)
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex(8);
+    if (read_hex(8))
+        return 1;
     return 0;
 }
 
@@ -136,15 +137,52 @@ uint8_t ZLAC::set_decc_time(uint16_t decc_time_ms)
     // memset(hex_cmd, 0, sizeof(hex_cmd));
     hex_cmd[0] = ID;
     hex_cmd[1] = WRITE;
-    hex_cmd[2] = SET_ACC_TIME[0];
-    hex_cmd[3] = SET_ACC_TIME[1];
+    hex_cmd[2] = SET_DECC_TIME[0];
+    hex_cmd[3] = SET_DECC_TIME[1];
 
     hex_cmd[4] = (decc_time_ms >> 8) & 0xFF;
     hex_cmd[5] = decc_time_ms & 0xFF;
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
-    read_hex(8);
+    if (read_hex(8))
+        return 1;
+    return 0;
+}
+
+uint8_t ZLAC::set_kp(uint16_t proportional_gain)
+{
+    // memset(hex_cmd, 0, sizeof(hex_cmd));
+    hex_cmd[0] = ID;
+    hex_cmd[1] = WRITE;
+    hex_cmd[2] = SET_KP[0];
+    hex_cmd[3] = SET_KP[1];
+
+    hex_cmd[4] = (proportional_gain >> 8) & 0xFF;
+    hex_cmd[5] = proportional_gain & 0xFF;
+
+    calculate_crc();
+    _serial.write(hex_cmd, 8);
+    if (read_hex(8))
+        return 1;
+    return 0;
+}
+
+uint8_t ZLAC::set_ki(uint16_t integral_gain)
+{
+    // memset(hex_cmd, 0, sizeof(hex_cmd));
+    hex_cmd[0] = ID;
+    hex_cmd[1] = WRITE;
+    hex_cmd[2] = SET_KI[0];
+    hex_cmd[3] = SET_KI[1];
+
+    hex_cmd[4] = (integral_gain >> 8) & 0xFF;
+    hex_cmd[5] = integral_gain & 0xFF;
+
+    calculate_crc();
+    _serial.write(hex_cmd, 8);
+    if (read_hex(8))
+        return 1;
     return 0;
 }
 
