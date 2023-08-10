@@ -27,12 +27,13 @@ uint8_t ZLAC::set_rpm(int16_t rpm)
     calculate_crc();
 
     // TODO isn't save, to continue reading infinite in case of error
-    do // repeat sending and read command as long as it has crc error
-    {
-        _serial.write(hex_cmd, 8);
-        // print_rec_hex();
-    } while (read_hex(8));
-
+    // do // repeat sending and read command as long as it has crc error
+    // {
+    //     _serial.write(hex_cmd, 8);
+    //     // print_rec_hex();
+    // } while (read_hex(8));
+    _serial.write(hex_cmd, 8);
+    read_hex(8);
     return 0;
 }
 
@@ -51,12 +52,14 @@ float ZLAC::get_rpm()
     // print_hex_cmd();
 
     // TODO isn't save, to continue reading infinite in case of error
-    do // repeat sending and read command as long as it has crc error
-    {
-        _serial.write(hex_cmd, 8);
-        // print_rec_hex();
-    } while (read_hex(7));
+    // do // repeat sending and read command as long as it has crc error
+    // {
+    //     _serial.write(hex_cmd, 8);
+    //     // print_rec_hex();
+    // } while (read_hex(7) );
 
+    _serial.write(hex_cmd, 8);
+    read_hex(8);
     int16_t rpm_tenth = receive_hex[4] + (receive_hex[3] << 8);
     return (float)rpm_tenth / 10.0f;
 }
