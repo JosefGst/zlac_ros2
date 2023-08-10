@@ -59,7 +59,7 @@ float ZLAC::get_rpm()
     // } while (read_hex(7) );
 
     _serial.write(hex_cmd, 8);
-    read_hex(8);
+    read_hex(7);
     int16_t rpm_tenth = receive_hex[4] + (receive_hex[3] << 8);
     return (float)rpm_tenth / 10.0f;
 }
