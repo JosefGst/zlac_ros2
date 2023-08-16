@@ -15,38 +15,48 @@ int main()
     motorR.set_acc_time(500);
     motorR.set_decc_time(500);
     motorR.max_speed(90);
-    motorR.initial_speed(40);
+    // motorR.initial_speed(40);
 
     motorL.set_vel_mode();
     motorL.enable();
     motorL.set_acc_time(500);
     motorL.set_decc_time(500);
-    motorL.max_speed(90);
-    motorL.initial_speed(40);
+    motorL.max_speed(80);
+    // motorL.initial_speed(40);
 
-    motorL.set_rpm(100);
-    motorR.set_rpm(100 * FLIP);
-    for (int i = 0; i < 100; i++)
+    // motorL.set_rpm(100);
+    // for (int i = 0; i < 100; i++)
+    motorL.disable();
+    while (1)
     {
-        printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
-        printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
+        // motorL.set_rpm(i);
+        // motorR.set_rpm(i * FLIP);
+        if (!motorL.read_motor())
+        {
+            printf("read pos L: %d \n", motorL.get_position());
+            printf("read rpm L: %f \n", motorL.get_rpm());
+            printf("read torque L: %f \n", motorL.get_torque());
+            printf("read error L: %d \n", motorL.get_error());
+        }
+
+        // printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
     }
     motorR.disable();
     motorL.disable();
-    for (int i = 0; i < 100; i++)
-    {
-        printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
-        printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
-    }
-    motorR.enable();
-    motorL.enable();
-    motorL.set_rpm(-100);
-    motorR.set_rpm(-100 * FLIP);
-    for (int i = 0; i < 100; i++)
-    {
-        printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
-        printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
-    }
-    motorR.disable();
-    motorL.disable();
+    // for (int i = 0; i < 100; i++)
+    // {
+    //     printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
+    //     printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
+    // }
+    // motorR.enable();
+    // motorL.enable();
+    // motorL.set_rpm(-100);
+    // motorR.set_rpm(-100 * FLIP);
+    // for (int i = 0; i < 100; i++)
+    // {
+    //     printf("i: %d read rpm R: %f \n", i, motorR.get_rpm() * FLIP);
+    //     printf("i: %d read rpm L: %f \n", i, motorL.get_rpm());
+    // }
+    // motorR.disable();
+    // motorL.disable();
 }

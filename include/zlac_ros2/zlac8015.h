@@ -21,7 +21,7 @@ protected:
     std::chrono::time_point<std::chrono::steady_clock> start, end;
 
     uint8_t hex_cmd[8] = {0};
-    uint8_t receive_hex[8] = {0};
+    uint8_t receive_hex[15] = {0};
     uint8_t ID = 0x00;
     const uint8_t READ = 0x03;
     const uint8_t WRITE = 0x06;
@@ -120,6 +120,43 @@ public:
      * @return rpm measured from wheel
      */
     float get_rpm();
+
+    /**
+     * @return Actual position feedback, unit: counts
+     */
+    int32_t get_position();
+
+    /**
+     * @return Actual torque feedback, unit: A
+     */
+    float get_torque();
+
+    /**
+     * @return Error feedback,
+     *          0000h: no error;
+     *          0001h: over-voltage;
+     *          0002h: under-voltage;
+     *          0004h: over-current;
+     *          0008h: overload;
+     *          0010h: current is out of tolerance;
+     *          0020h: encoder is out of tolerance;
+     *          0040h: speed is out of tolerance;
+     *          0080h: reference voltage error;
+     *          0100h: EEPROM read and write error;
+     *          0200h: Hall error;
+     *          0400h: motor temperature is too high.
+     */
+    uint16_t get_error();
+
+    /**
+     * @brief Read data form the motor
+     *        - position in counts, one rotation has about 4090 counts
+     *        - rpm
+     *        - torque in 0.1 A
+     *        - Error message
+     * @return 0 if ok, 1 if crc read error
+     */
+    uint8_t read_motor();
 
     /**
      * @return The ini tial speed when moti on begins.
