@@ -120,6 +120,12 @@ public:
      * @return rpm measured from wheel
      */
     float get_rpm();
+
+    /**
+     * @return The ini tial speed when moti on begins.
+     */
+    uint8_t initial_speed(uint16_t rpm);
+
     /**
      * @return Max operating speed of motor.
      */
