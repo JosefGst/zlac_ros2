@@ -14,11 +14,13 @@ int main()
     motorR.enable();
     motorR.set_acc_time(500);
     motorR.set_decc_time(500);
+    motorR.max_speed(90);
 
     motorL.set_vel_mode();
     motorL.enable();
     motorL.set_acc_time(500);
     motorL.set_decc_time(500);
+    motorL.max_speed(90);
 
     motorL.set_rpm(100);
     motorR.set_rpm(100 * FLIP);

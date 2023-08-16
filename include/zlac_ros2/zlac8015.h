@@ -116,6 +116,10 @@ public:
      * @return rpm measured from wheel
      */
     float get_rpm();
+    /**
+     * @return Max operating speed of motor.
+     */
+    uint8_t max_speed(uint16_t rpm);
 
     void sleep(unsigned long milliseconds);
     void say_hello();

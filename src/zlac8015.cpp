@@ -188,6 +188,23 @@ uint8_t ZLAC::set_ki(uint16_t integral_gain)
         return 1;
     return 0;
 }
+uint8_t ZLAC::max_speed(uint16_t rpm)
+{
+    // memset(hex_cmd, 0, sizeof(hex_cmd));
+    hex_cmd[0] = ID;
+    hex_cmd[1] = WRITE;
+    hex_cmd[2] = MAX_SPEED[0];
+    hex_cmd[3] = MAX_SPEED[1];
+
+    hex_cmd[4] = (rpm >> 8) & 0xFF;
+    hex_cmd[5] = rpm & 0xFF;
+
+    calculate_crc();
+    _serial.write(hex_cmd, 8);
+    if (read_hex(8))
+        return 1;
+    return 0;
+}
 
 // HELPER Functions *************************************************************
 
