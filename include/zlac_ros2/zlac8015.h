@@ -36,6 +36,10 @@ protected:
     const uint8_t SET_DECC_TIME[2] = {0x20, 0X38};
     const uint8_t SET_KP[2] = {0x20, 0X1D};
     const uint8_t SET_KI[2] = {0x20, 0X1E};
+    const uint8_t INITIAL_SPEED[2] = {0X20, 0X08};
+    const uint8_t MAX_SPEED[2] = {0X20, 0X0A};
+    const uint8_t ACTUAL_POSITION_H[2] = {0X20, 0X2A};
+    const uint8_t ACTUAL_POSITION_L[2] = {0X20, 0X2B};
 
     /**
      * @brief calculates the crc and stores it in the hex_cmd array, so there is no return value
