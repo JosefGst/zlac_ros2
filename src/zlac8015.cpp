@@ -137,7 +137,8 @@ uint8_t ZLAC::read_motor()
     // crc check of received data
     if (crc16(receive_hex, 15) != 0)
     {
-        printf("crc checking error read_motor\n");
+        _serial.flush();
+        // printf("crc checking error read_motor\n");
         return 1;
     }
     // print_rec_hex();
