@@ -10,17 +10,18 @@ jobs:
           - {ROS_DISTRO: humble, ROS_REPO: main}
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: checkout zlac_ros2
         uses: actions/checkout@v4
         with:
           path: src/zlac_ros2
 
-      - name: serial
+      - name: checkout serial
         uses: actions/checkout@v4
         with:
           repository: joshnewans/serial
           path: src/serial
 
-      - uses: 'ros-industrial/industrial_ci@master'
+      - name: industrial_ci
+        uses: 'ros-industrial/industrial_ci@master'
         env: ${{matrix.env}}
       
