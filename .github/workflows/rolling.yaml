@@ -1,0 +1,27 @@
+name: rolling
+
+on: [push, pull_request]
+
+jobs:
+  industrial_ci:
+    strategy:
+      matrix:
+        env:
+          - {ROS_DISTRO: rolling, ROS_REPO: main}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout zlac_ros2
+        uses: actions/checkout@v4
+        with:
+          path: src/zlac_ros2
+
+      - name: checkout serial
+        uses: actions/checkout@v4
+        with:
+          repository: joshnewans/serial
+          path: src/serial
+
+      - name: industrial_ci
+        uses: 'ros-industrial/industrial_ci@master'
+        env: ${{matrix.env}}
+      
