@@ -1,5 +1,9 @@
 repositories:
-  urdf_launch:
+  serial:
     type: git
     url: git@github.com:joshnewans/serial.git
     version: newans_ros2
+  zlac_ros2:
+    type: git
+    url: https://github.com/JosefGst/zlac_ros2.git
+    version: master
