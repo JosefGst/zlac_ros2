@@ -1,5 +1,4 @@
 # ZLAC8015 ROS 2 motor hardware interface
-![humble badge](https://github.com/JosefGst/zlac_ros2/actions/workflows/humble.yaml/badge.svg)
 ROS 2 hardware interface library package to use with ROS 2 control.
 
 ## Installation
