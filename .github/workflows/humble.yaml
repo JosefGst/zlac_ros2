@@ -18,7 +18,7 @@ jobs:
       - name: serial
         uses: actions/checkout@v4
         with:
-          repository: clone https://github.com/joshnewans/serial.git
+          repository: joshnewans/serial
           path: src/serial
 
       - uses: 'ros-industrial/industrial_ci@master'
