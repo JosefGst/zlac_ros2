@@ -9,6 +9,8 @@ ROS 2 hardware interface library package to use with ROS 2 control.
 
 ## Installation
 
+    cd zlac_ros2
+    sudo apt install python3-vcstool
     vcs import .. < my.repos
 
 ## Wiring
