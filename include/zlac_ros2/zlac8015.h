@@ -34,8 +34,11 @@ protected:
     const uint8_t GET_RPM[2] = {0x20, 0X2C};
     const uint8_t SET_ACC_TIME[2] = {0x20, 0X37};
     const uint8_t SET_DECC_TIME[2] = {0x20, 0X38};
+    const uint8_t SET_VEL_SMOOTHING[2] = {0x20, 0X18};
+    const uint8_t SET_FORWARD_OUTPUT_SMOOTHING[2] = {0x20, 0X1B};
     const uint8_t SET_KP[2] = {0x20, 0X1D};
     const uint8_t SET_KI[2] = {0x20, 0X1E};
+    const uint8_t SET_KF[2] = {0x20, 0X1F};
     const uint8_t INITIAL_SPEED[2] = {0X20, 0X08};
     const uint8_t MAX_SPEED[2] = {0X20, 0X0A};
     const uint8_t ACTUAL_POSITION_H[2] = {0X20, 0X2A};
@@ -88,16 +91,34 @@ public:
     uint8_t set_decc_time(uint16_t decc_time_ms);
 
     /**
-     * @param proportional_gain Speed Proportional Gain. Default: 500
+     * @param vel_smoothing_factor Default: 1000, Range: 0-30000 
+     * @return 0 when OK. 1 if crc error
+     */
+    uint8_t set_vel_smoothing(uint16_t vel_smoothing_factor);
+
+    /**
+     * @param feedforward_output_smoothing_factor Default: 100, Range: 0-30000 
+     * @return 0 when OK. 1 if crc error
+     */
+    uint8_t set_feedforward_output_smoothing(uint16_t feedforward_output_smoothing_factor);
+
+    /**
+     * @param proportional_gain Speed Proportional Gain. Default: 500, Range: 0-30000 
      * @return 0 when OK. 1 if crc error
      */
     uint8_t set_kp(uint16_t proportional_gain);
 
     /**
-     * @param integral_gain Speed Integral Gain. Default: 100
+     * @param integral_gain Speed Integral Gain. Default: 100, Range: 0-30000 
      * @return 0 when OK. 1 if crc error
      */
     uint8_t set_ki(uint16_t integral_gain);
+
+    /**
+     * @param forward_gain Speed Forward Gain. Default: 1000, Range: 0-30000 
+     * @return 0 when OK. 1 if crc error
+     */
+    uint8_t set_kf(uint16_t forward_gain);
 
     /**
      * @return 0 when OK. 1 if crc error
