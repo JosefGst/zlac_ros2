@@ -14,14 +14,24 @@ int main()
     motorR.enable();
     motorR.set_acc_time(500);
     motorR.set_decc_time(500);
-    motorR.max_speed(90);
+    motorR.set_kp(500);
+    motorR.set_ki(100);
+    motorR.set_kf(1000);
+    motorR.max_speed(80);
+    motorR.set_feedforward_output_smoothing(100);
+    motorR.set_vel_smoothing(1000);
     // motorR.initial_speed(40);
 
     motorL.set_vel_mode();
     motorL.enable();
     motorL.set_acc_time(500);
     motorL.set_decc_time(500);
+    motorL.set_ki(100);
+    motorL.set_kp(500);
+    motorL.set_kf(1000);
     motorL.max_speed(80);
+    motorL.set_feedforward_output_smoothing(100);
+    motorL.set_vel_smoothing(1000);
     // motorL.initial_speed(40);
 
     // motorL.set_rpm(100);

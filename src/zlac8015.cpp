@@ -235,6 +235,42 @@ uint8_t ZLAC::set_decc_time(uint16_t decc_time_ms)
     return 0;
 }
 
+uint8_t ZLAC::set_vel_smoothing(uint16_t vel_smoothing_factor)
+{
+    // memset(hex_cmd, 0, sizeof(hex_cmd));
+    hex_cmd[0] = ID;
+    hex_cmd[1] = WRITE;
+    hex_cmd[2] = SET_VEL_SMOOTHING[0];
+    hex_cmd[3] = SET_VEL_SMOOTHING[1];
+
+    hex_cmd[4] = (vel_smoothing_factor >> 8) & 0xFF;
+    hex_cmd[5] = vel_smoothing_factor & 0xFF;
+
+    calculate_crc();
+    _serial.write(hex_cmd, 8);
+    if (read_hex(8))
+        return 1;
+    return 0;
+}
+
+uint8_t ZLAC::set_feedforward_output_smoothing(uint16_t feedforward_output_smoothing_factor)
+{
+    // memset(hex_cmd, 0, sizeof(hex_cmd));
+    hex_cmd[0] = ID;
+    hex_cmd[1] = WRITE;
+    hex_cmd[2] = SET_FORWARD_OUTPUT_SMOOTHING[0];
+    hex_cmd[3] = SET_FORWARD_OUTPUT_SMOOTHING[1];
+
+    hex_cmd[4] = (feedforward_output_smoothing_factor >> 8) & 0xFF;
+    hex_cmd[5] = feedforward_output_smoothing_factor & 0xFF;
+
+    calculate_crc();
+    _serial.write(hex_cmd, 8);
+    if (read_hex(8))
+        return 1;
+    return 0;
+}
+
 uint8_t ZLAC::set_kp(uint16_t proportional_gain)
 {
     // memset(hex_cmd, 0, sizeof(hex_cmd));
@@ -263,6 +299,24 @@ uint8_t ZLAC::set_ki(uint16_t integral_gain)
 
     hex_cmd[4] = (integral_gain >> 8) & 0xFF;
     hex_cmd[5] = integral_gain & 0xFF;
+
+    calculate_crc();
+    _serial.write(hex_cmd, 8);
+    if (read_hex(8))
+        return 1;
+    return 0;
+}
+
+uint8_t ZLAC::set_kf(uint16_t forward_gain)
+{
+    // memset(hex_cmd, 0, sizeof(hex_cmd));
+    hex_cmd[0] = ID;
+    hex_cmd[1] = WRITE;
+    hex_cmd[2] = SET_KF[0];
+    hex_cmd[3] = SET_KF[1];
+
+    hex_cmd[4] = (forward_gain >> 8) & 0xFF;
+    hex_cmd[5] = forward_gain & 0xFF;
 
     calculate_crc();
     _serial.write(hex_cmd, 8);
